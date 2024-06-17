@@ -19,10 +19,10 @@ window.onload = function () {
   // After 4 seconds, set height back to auto (or any other desired height)
   setTimeout(function () {
     panel.style.overflow = "visible"; // Set height back to auto after 4 seconds
-  }, 0); //7000 real value
+  }, 7000); //7000 real value
   setTimeout(function () {
     document.querySelector(".blocks").style.display = "none";
-  }, 0); //8000 real value
+  }, 8000); //8000 real value
 };
 
 const timeline1 = gsap.timeline({ delay: 1.75 });
@@ -117,9 +117,9 @@ document.querySelector(".pop_img").addEventListener("click", function (event) {
   let container = document.createElement("div");
   let elementWidth = sec3_var1;
 
-  const imgNumber = Math.floor(Math.random() * 1) + 1;
+  const imgNumber = Math.floor(Math.random() * 44) + 1;
   container.innerHTML = `<div class="img_container">
-                    <img src="./assets/img-${imgNumber}.jpg" alt="" />
+                    <img src="./assets/img-${imgNumber}.png" alt="" />
                     </div>`;
 
   const appendedElement = container.firstChild;
@@ -236,12 +236,12 @@ ScrollTrigger.create({
 /* ================================section-5================================ */
 /* ========================================================================= */
 gsap.to("#col1,#col3", {
-  y: () => innerWidth * 2.2,
+  y: () => innerWidth * 4,
   // ease: "power2.inOut",
   scrollTrigger: {
     trigger: ".box",
     start: "bottom bottom",
-    end: `+=300%`,
+    end: `+=400%`,
     scrub: 1,
   },
 });
@@ -251,7 +251,7 @@ gsap.to("#col2,#col4", {
   scrollTrigger: {
     trigger: ".box",
     start: "bottom bottom",
-    end: `+=300%`,
+    end: `+=400%`,
     scrub: 1,
   },
 });
@@ -303,7 +303,119 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ========================================================================= */
 /* ================================section-7================================ */
 /* ========================================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+  const stickyBar = document.querySelector(".names_container .sticky-bar");
+  const footerTrigger = document.querySelector(".names_container .trigger-footer");
+  const footerTriggerHeight = footerTrigger.offsetHeight;
 
+  function getStickyBarCenter() {
+    return stickyBar.offsetTop + stickyBar.offsetHeight / 2;
+  }
+  document.querySelectorAll(".names_container .row").forEach((row) => {
+    ScrollTrigger.create({
+      trigger: row,
+      start: () => `top+=${getStickyBarCenter() - 135} center`,
+      end: () => `top+=${getStickyBarCenter() - 35} center`,
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const maxGap = window.innerWidth < 900 ? 7 : 12;
+        const minGap = window.innerWidth < 900 ? 0.5 : 1;
+        const currentGap = minGap + (maxGap - minGap) * progress;
+        row.style.gap = `${currentGap}em`;
+      },
+    });
+  });
+  document.querySelectorAll(".row").forEach((row) => {
+    ScrollTrigger.create({
+      trigger: row,
+      start: () => `top+=${getStickyBarCenter() - 50} center`,
+      end: () => `top+=${getStickyBarCenter() + 50} center`,
+      scrub: true,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const maxGap = window.innerWidth < 900 ? 0.5 : 1;
+        const minGap = window.innerWidth < 900 ? 7 : 12;
+        const currentGap = minGap + (maxGap - minGap) * progress;
+        row.style.gap = `${currentGap}em`;
+      },
+    });
+  });
+});
+
+const fontFamilies = [
+  'Bangers, system-ui',
+  'Nova Square, sans-serif',
+  'Italiana, sans-serif',
+  'Great Vibes, cursive',
+  'Unbounded, sans-serif',
+  'Fraunces, serif',
+  'Lobster, sans-serif',
+  'Lugrasimo, cursive',
+  'Red Hat Display, sans-serif',
+  'Syne, sans-serif',
+];
+function getRandomFontFamily() {
+  return fontFamilies[Math.floor(Math.random() * fontFamilies.length)];
+}
+
+const spans = document.querySelectorAll('.names_container .clients span');
+spans.forEach(span => {
+  span.style.fontFamily = getRandomFontFamily();
+});
+
+
+/* ========================================================================= */
+/* ================================section-8================================ */
+/* ========================================================================= */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const div_celeb_container = document.querySelector('#div_celeb_container');
+    const celeb_cont_footer = document.querySelector('.celeb_cont_footer');
+    const lastCard = document.querySelector('.card.scroll');
+    const pinnedSections = gsap.utils.toArray(".pinned");
+
+    pinnedSections.forEach((section, index, sections) => {
+        let img = section.querySelector('.img');
+        let nextSection = sections[index + 1] || lastCard;
+        let endScalePoint = `top+=${nextSection.offsetTop - section.offsetTop} top`;
+        gsap.to(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: (index === sections.length) ? `+=${lastCard.offsetHeight / 10}` : celeb_cont_footer.offsetTop - window.innerHeight + div_celeb_container.offsetTop ,
+                pin: true,
+                pinSpacing: false,
+                scrub: 1
+            }
+        });
+
+        gsap.fromTo(img,
+            { scale: 1 },
+            {
+                scale: 0.5,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top top',
+                    end: endScalePoint,
+                    scrub: 1
+                }
+            }
+        );
+    });
+    const heroH1 = document.querySelector('.hero h1');
+    ScrollTrigger.create({
+        trigger: div_celeb_container,
+        start: 'top top',
+        end: '+=400vh',
+        scrub: 1,
+        onUpdate: (self) => {
+            let opacityProgress = self.progress;
+            heroH1.style.opacity = 1 - opacityProgress;
+        }
+    })
+});
 
 
 /* ========================================================================= */
@@ -323,3 +435,45 @@ textElements.forEach(text => {
     },
   });
 });
+
+
+/* ========================================================================= */
+/* ================================contact================================== */
+/* ========================================================================= */
+const contactWrapper = document.querySelector('.contact_container .tracker');
+const emoji = document.querySelector(".contact_container .emoji");
+const emojiFace = document.querySelector(".contact_container .emoji-face");
+const moveEvent = (e) => {
+    const wrapperRect = contactWrapper.getBoundingClientRect();
+    const relX = e.clientX - (wrapperRect.left + wrapperRect.width / 2);
+    const relY = e.clientY - (wrapperRect.top + wrapperRect.height / 2);
+    const emojiMaxDisplacement = 50;
+    const emojiFaceMaxDisplacement = 75;
+    const emojiDisplacementX = (relX / wrapperRect.width) * emojiMaxDisplacement;
+    const emojiDisplacementY = (relY / wrapperRect.height) * emojiMaxDisplacement;
+    const emojiFaceDisplacementX = (relX / wrapperRect.width) * emojiFaceMaxDisplacement;
+    const emojiFaceDisplacementY = (relY / wrapperRect.height) * emojiFaceMaxDisplacement;
+
+    gsap.to(emoji, {
+        x: emojiDisplacementX,
+        y: emojiDisplacementY,
+        ease: "power3.out",
+        duration: 0.35
+    })
+    gsap.to(emojiFace, {
+        x: emojiFaceDisplacementX,
+        y: emojiFaceDisplacementY,
+        ease: "power3.out",
+        duration: 0.35
+    })
+}
+const leaveEvent = () => {
+    gsap.to([emoji, emojiFace], {
+        x: 0,
+        y: 0,
+        ease: "power3.out",
+        duration: 1,
+    })
+}
+contactWrapper.addEventListener("mousemove", moveEvent);
+contactWrapper.addEventListener("mouseleave", leaveEvent);
