@@ -207,13 +207,6 @@ function updateCursorPosition(mouseX, mouseY) {
 /* ========================================================================= */
 /* ================================section-4================================ */
 /* ========================================================================= */
-var allpanels = document.getElementsByClassName("panel");
-    for (i = 0; i < allpanels.length; i++) {
-      var lazy = allpanels[i];
-      var src = lazy.dataset.src;
-
-      lazy.style.backgroundImage =  'url("'+src+'")';
-    }
 let box = document.querySelector(".box");
 ScrollTrigger.create({
   trigger: ".panelwrap",
