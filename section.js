@@ -305,8 +305,8 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ========================================================================= */
 document.addEventListener("DOMContentLoaded", function () {
   const stickyBar = document.querySelector(".names_container .sticky-bar");
-  const footerTrigger = document.querySelector(".names_container .trigger-footer");
-  const footerTriggerHeight = footerTrigger.offsetHeight;
+  // const footerTrigger = document.querySelector(".names_container .trigger-footer");
+  // const footerTriggerHeight = footerTrigger.offsetHeight;
 
   function getStickyBarCenter() {
     return stickyBar.offsetTop + stickyBar.offsetHeight / 2;
